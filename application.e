@@ -19,10 +19,9 @@ feature {NONE} -- Initialization
 	make
 			-- Run application.
 		do
-
-			print("launched")
 			--| Add your code here
 			create gameboard.make
+			sleep(10000000000)
 		end
 
 end

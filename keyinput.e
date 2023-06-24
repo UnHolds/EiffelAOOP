@@ -29,15 +29,13 @@ feature
 
 
 	execute
-		local
-			input: STRING
 		do
 			from
 			 	active := true
 			until
 				active = false
 			loop
-				print("#")
+				lastKeyPressed := read_char
 			end
         end
 
