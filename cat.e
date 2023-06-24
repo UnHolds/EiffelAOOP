@@ -7,18 +7,33 @@ note
 class
 	CAT
 
+inherit
+	ENTITY
+		rename
+			make as makeEntity
+		redefine
+			draw
+		end
+
 create
 	make
 
-inherit
-	ENTITY
-	
+
 feature
 
 
-	make
+	make(startPos: POSITION)
 		do
+			position := startPos
+		end
 
+	draw(pos:POSITION):BOOLEAN
+		do
+			Result := false
+			if position.isEqual(pos) then
+				print("C")
+				Result := true
+			end
 		end
 
 

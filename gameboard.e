@@ -14,12 +14,18 @@ feature --init
 
 	xSize: INTEGER
 	ySize: INTEGER
+	cat: CAT
 
 	checkDrawItem (x: INTEGER y: INTEGER) : BOOLEAN
 		require
 			x > 1 and x < xSize and y > 1 and y < ySize
+		local
+			pos: POSITION
+			wasDrawn : BOOLEAN
 		do
-			Result := false
+			create pos.make (x, y)
+			wasDrawn := cat.draw (pos)
+			Result := wasDrawn
 		end
 
 	draw
@@ -39,9 +45,13 @@ feature --init
 		end
 
 	make
+		local
+			catStartPos: POSITION
 		do
 			xSize := 100
 			ySize := 25
+			create catStartPos.make(xSize//2, ySize//2)
+			create cat.make(catStartPos)
 			draw
 		end
 end

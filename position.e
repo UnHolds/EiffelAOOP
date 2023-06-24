@@ -21,4 +21,19 @@ feature
 			yPos := y
 		end
 
+	getX: INTEGER
+		do
+			Result := xPos
+		end
+
+	getY: INTEGER
+		do
+			Result := yPos
+		end
+
+	isEqual (pos: POSITION): BOOLEAN
+		do
+			Result := (xPos = pos.getX and yPos = pos.getY)
+		end
+
 end

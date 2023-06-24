@@ -6,6 +6,10 @@ note
 
 class
 	ENTITY
+
+inherit
+	DRAWABLE
+
 create
 	make
 
