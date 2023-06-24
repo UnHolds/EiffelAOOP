@@ -7,7 +7,8 @@ class
 	APPLICATION
 
 inherit
-	ARGUMENTS_32
+	--ARGUMENTS_32
+	EXECUTION_ENVIRONMENT
 
 create
 	make
@@ -18,14 +19,10 @@ feature {NONE} -- Initialization
 	make
 			-- Run application.
 		do
+
+			print("launched")
 			--| Add your code here
 			create gameboard.make
 		end
-
-	read_char: CHARACTER
-        -- Read a character from a console without waiting for Enter.
-    external "C inline use <conio.h>"
-        alias "return getch ();"
-    end
 
 end

@@ -21,10 +21,13 @@ create
 
 feature
 
+	input: KEYINPUT
 
 	make(startPos: POSITION)
 		do
 			position := startPos
+			create input.make2
+			input.launch
 		end
 
 	draw(pos:POSITION):BOOLEAN
@@ -35,8 +38,6 @@ feature
 				Result := true
 			end
 		end
-
-
 
 
 end
