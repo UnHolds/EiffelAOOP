@@ -21,17 +21,24 @@ create
 feature
 
 	visable: BOOLEAN
+	algorithm: MOVEMENT_ALGORITHM
 
 	make(startPos: POSITION)
+		local
+			algo: NIL_MOVEMENT_ALGORITHM
 		do
 			position := startPos
 			visable := true
+			create algo.make
+			algorithm := algo
 		end
 
 	draw(pos:POSITION):BOOLEAN
 		do
 			Result := false
-			if position.isEqual(pos) then
+
+
+			if position.isEqual(pos) and visable then
 				print("M")
 				Result := true
 			end
@@ -39,12 +46,17 @@ feature
 
 	move
 		do
-
+			position := algorithm.move
 		end
 
 	setVisable(vis: BOOLEAN)
 		do
 			visable := vis
+		end
+
+	setAlgorithm(algo:MOVEMENT_ALGORITHM)
+		do
+			algorithm := algo
 		end
 
 

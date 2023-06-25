@@ -30,11 +30,13 @@ feature
 		do
 			mouse := m
 			subways := s
-			create time.make_by_fine_seconds(5)
+			create random.set_seed(seed)
+			random.forth
+			create time.make_by_fine_seconds(4 + (random.item \\ 4))
+			random.forth
 			waitTime := time.duration
 			create time.make_now
 			residingSubway := rs
-			create random.set_seed(seed)
 			chooseGoalHole
 			cat := c
 		end
@@ -52,9 +54,10 @@ feature
 			if isInSub then
 				create currentTime.make_now
 				timeDiff := (currentTime - time).duration
-				if timeDiff.is_greater_equal(waitTime) then
+				if timeDiff.is_greater_equal(waitTime) and residingSubway.goalSubway = false then
 					Result := residingSubway.exit(mouse)
 					chooseGoalHole
+					isInSub := false
 				end
 			else
 				-- move mouse to hole
@@ -76,9 +79,10 @@ feature
 				Result := pos
 
 				-- check if mouse is on goal hole and if so eat into hole
-				if mouse.getposition.isequal (goalHole.getposition) then
+				if mouse.getposition.isequal(goalHole.getposition) then
 					residingSubway := goalHole.getsubway
 					residingSubway.enter(mouse, cat.getposition)
+					isInSub := true
 					create time.make_now
 				end
 			end
@@ -100,7 +104,7 @@ feature
 			end
 
 			random.forth
-			goalHole := holes.i_th(random.item \\ holes.count)
+			goalHole := holes.i_th((random.item \\ (holes.count - 1)) + 1)
 
 		end
 

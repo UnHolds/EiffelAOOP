@@ -21,6 +21,7 @@ feature --init
 	mice: ARRAYED_LIST[MOUSE]
 	subways: ARRAYED_LIST[SUBWAY]
 	score: INTEGER
+	goalSub: SUBWAY
 
 
 	moveMice
@@ -59,14 +60,23 @@ feature --init
 			mice := newMice
 		end
 
+	checkGameOver
+		do
+			if mice.count = goalSub.getMice.Count then
+				lost := true
+			end
+		end
 
 	mainLoop
 		do
 			clear
 			checkEat
 			cat.move
+			checkEat
 			moveMice
+			checkEat
 			draw
+			checkGameOver
 		end
 
 	hasWon: BOOLEAN
@@ -139,6 +149,8 @@ feature --init
 		    print("           \ \/  \/ /| |  | | . ` |          %N")
 		    print("            \  /\  / | |__| | |\  |          %N")
 		    print("             \/  \/   \____/|_| \_|          %N")
+			print("%N%N            SCORE: ")
+			print(score)
 
 		end
 
@@ -157,6 +169,8 @@ feature --init
 			print("        | |   | |  | |\___ \   | |             %N")
 			print("        | |___| |__| |____) |  | |             %N")
 			print("        |______\____/|_____/   |_|             %N")
+			print("%N%N            SCORE: ")
+			print(score)
 
 		end
 
@@ -188,6 +202,8 @@ feature --init
 			y: INTEGER
 			subway: SUBWAY
 			isGoal: BOOLEAN
+			miceSubways: ARRAYED_LIST[SUBWAY]
+			alg1: DIRECT_MOVEMENT_ALGORITHM
 		do
 			xSize := 100
 			ySize := 25
@@ -196,21 +212,13 @@ feature --init
 			score := 0
 
 			create random.make
-			create mice.make (0)
+			create mice.make(0)
+			create goalSub.make(0, 0, 0, false) --just for create
 
 			create catStartPos.make(xSize//2, ySize//2)
 			create cat.make(catStartPos, xSize, ySize)
 
-			across 1 |..| 5 as yc loop
-				random.forth
-				x := ((random.item \\ (xSize - 2)) + 2)
-				random.forth
-				y := ((random.item \\ (ySize - 2)) + 2)
-				create pos.make (x, y)
-				create mouse.make(pos)
-				mice.extend(mouse)
-			end
-
+			create miceSubways.make(0)
 			create subways.make(0)
 			across 1 |..| 3 as yc loop
 				random.forth
@@ -221,6 +229,33 @@ feature --init
 				end
 				create subway.make(xSize, ySize, random.item \\ 128, isGoal)
 				subways.extend(subway)
+				if not isGoal then
+					miceSubways.extend(subway)
+				else
+					goalSub := subway
+				end
+			end
+
+			across 1 |..| 5 as yc loop
+				random.forth
+				x := ((random.item \\ (xSize - 2)) + 2)
+				random.forth
+				y := ((random.item \\ (ySize - 2)) + 2)
+				create pos.make (x, y)
+				create mouse.make(pos)
+				subway := miceSubways.i_th((random.item \\ (miceSubways.count - 1)) + 1)
+				random.forth
+				subway.enter (mouse, cat.getposition)
+				if yc.item \\ 2 = 1 then
+					create alg1.make(mouse, subways, subway, random.item, cat)
+					mouse.setalgorithm (alg1)
+					random.forth
+				elseif yc.item \\ 2 = 0 then
+					create alg1.make(mouse, subways, subway, random.item, cat)
+					mouse.setalgorithm (alg1)
+					random.forth
+				end
+				mice.extend(mouse)
 			end
 
 			draw

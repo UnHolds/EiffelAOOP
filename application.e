@@ -26,7 +26,7 @@ feature {NONE} -- Initialization
 
 			create startTime.make_by_fine_seconds(0.2) --set the loop time here :)
 			loopDuration := startTime.duration
-			create startTime.make_by_fine_seconds(20.0) --set the game end time
+			create startTime.make_by_fine_seconds(220.0) --set the game end time
 			gameTimeEnd := startTime.duration
 
 			--init variables

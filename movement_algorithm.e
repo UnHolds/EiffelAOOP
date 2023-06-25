@@ -8,7 +8,6 @@ deferred class
 	MOVEMENT_ALGORITHM
 
 feature
-	
 
 	move: POSITION
 		deferred

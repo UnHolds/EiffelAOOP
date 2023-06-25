@@ -47,6 +47,11 @@ feature
 
 		end
 
+	getMice: ARRAYED_LIST[MOUSE]
+		do
+			Result := mice
+		end
+
 	getHoles: ARRAYED_LIST[HOLE]
 		do
 			Result := holes
