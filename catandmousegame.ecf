@@ -26,6 +26,7 @@
 			<option warning="none">
 			</option>
 		</library>
+		<library name="time" location="$ISE_LIBRARY\library\time\time.ecf"/>
 		<cluster name="catandmousegame" location=".\" recursive="true">
 			<option warning="none" is_obsolete_iteration="true" manifest_array_type="mismatch_warning">
 			</option>
