@@ -46,19 +46,21 @@ feature
 	move
 		local
 			newPos: POSITION
+			keyPress: CHARACTER
 		do
+			keyPress := input.getKeyPress
 			create newPos.make (position.getx, position.gety)
-			if input.lastKeyPressed = 'w' or input.lastKeyPressed = 'W' then
+			if keyPress = 'w' or keyPress = 'W' then
 				create newPos.make (position.getx, position.gety - 1)
 			end
-			if input.lastKeyPressed = 's' or input.lastKeyPressed = 'S' then
+			if keyPress = 's' or keyPress = 'S' then
 				create newPos.make (position.getx, position.gety + 1)
 			end
-			if input.lastKeyPressed = 'a' or input.lastKeyPressed = 'A' then
+			if keyPress = 'a' or keyPress = 'A' then
 				create newPos.make (position.getx - 1, position.gety)
 			end
-			if input.lastKeyPressed = 'd' or input.lastKeyPressed = 'D' then
-				create newPos.make (position.getx - 1, position.gety)
+			if keyPress = 'd' or keyPress = 'D' then
+				create newPos.make (position.getx + 1, position.gety)
 			end
 
 			if newPos.getx > 1 and newPos.gety > 1 and newPos.getx < maxX and newPos.gety < maxY then

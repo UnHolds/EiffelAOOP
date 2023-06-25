@@ -27,6 +27,15 @@ feature
 			execute
 		end
 
+	getKeyPress: CHARACTER
+		local
+			lastChar: CHARACTER
+		do
+			lastChar := lastKeyPressed
+			lastKeyPressed := 'Q'
+			Result := lastChar
+		end
+
 
 	execute
 		do
