@@ -19,6 +19,7 @@ feature --init
 	lost: BOOLEAN
 	random: RANDOM
 	mice: ARRAYED_LIST[MOUSE]
+	subways: ARRAYED_LIST[SUBWAY]
 
 	mainLoop
 		do
@@ -47,6 +48,7 @@ feature --init
 		local
 			pos: POSITION
 			wasDrawn : BOOLEAN
+			holes: ARRAYED_LIST[HOLE]
 		do
 			create pos.make (x, y)
 			wasDrawn := cat.draw (pos)
@@ -58,6 +60,23 @@ feature --init
 			loop
 				wasDrawn := mice.item.draw(pos)
 				mice.forth
+			end
+
+			from
+				subways.start
+			until
+				wasDrawn or subways.exhausted
+			loop
+				holes := subways.item.getHoles
+				from
+					holes.start
+				until
+					wasDrawn or holes.exhausted
+				loop
+					wasDrawn := holes.item.draw(pos)
+					holes.forth
+				end
+				subways.forth
 			end
 
 			Result := wasDrawn
@@ -122,6 +141,7 @@ feature --init
 			mouse: MOUSE
 			x: INTEGER
 			y: INTEGER
+			subway: SUBWAY
 		do
 			xSize := 100
 			ySize := 25
@@ -143,6 +163,14 @@ feature --init
 				create mouse.make(pos)
 				mice.extend(mouse)
 			end
+
+			create subways.make(0)
+			across 1 |..| 3 as yc loop
+				random.forth
+				create subway.make(xSize, ySize, random.item \\ 128)
+				subways.extend(subway)
+			end
+
 			draw
 		end
 end
