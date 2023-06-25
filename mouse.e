@@ -42,6 +42,11 @@ feature
 
 		end
 
+	setVisable(vis: BOOLEAN)
+		do
+			visable := vis
+		end
+
 
 
 end

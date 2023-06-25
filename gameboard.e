@@ -187,6 +187,7 @@ feature --init
 			x: INTEGER
 			y: INTEGER
 			subway: SUBWAY
+			isGoal: BOOLEAN
 		do
 			xSize := 100
 			ySize := 25
@@ -213,7 +214,12 @@ feature --init
 			create subways.make(0)
 			across 1 |..| 3 as yc loop
 				random.forth
-				create subway.make(xSize, ySize, random.item \\ 128)
+				if yc.item = 1 then
+					isGoal := true
+				else
+					isGoal := false
+				end
+				create subway.make(xSize, ySize, random.item \\ 128, isGoal)
 				subways.extend(subway)
 			end
 

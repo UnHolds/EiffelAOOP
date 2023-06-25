@@ -20,9 +20,16 @@ create
 	make
 
 feature
-	make(startPos: POSITION)
+	subway: SUBWAY
+	make(startPos: POSITION asubway: SUBWAY)
 		do
 			position := startPos
+			subway := asubway
+		end
+
+	getSubway: SUBWAY
+		do
+			Result := subway
 		end
 
 	draw(pos:POSITION):BOOLEAN
