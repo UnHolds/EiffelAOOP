@@ -20,9 +20,12 @@ create
 
 feature
 
+	visable: BOOLEAN
+
 	make(startPos: POSITION)
 		do
 			position := startPos
+			visable := true
 		end
 
 	draw(pos:POSITION):BOOLEAN
@@ -34,7 +37,10 @@ feature
 			end
 		end
 
+	move
+		do
 
+		end
 
 
 

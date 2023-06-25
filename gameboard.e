@@ -20,11 +20,52 @@ feature --init
 	random: RANDOM
 	mice: ARRAYED_LIST[MOUSE]
 	subways: ARRAYED_LIST[SUBWAY]
+	score: INTEGER
+
+
+	moveMice
+		local
+			mouse: MOUSE
+		do
+			from
+				mice.start
+			until
+				mice.exhausted
+			loop
+				mice.item.move
+				mice.forth
+			end
+		end
+
+	checkEat
+		local
+			mouse: MOUSE
+			newMice: ARRAYED_LIST[MOUSE]
+		do
+			create newMice.make(0)
+			from
+				mice.start
+			until
+				mice.exhausted
+			loop
+				if mice.item.getPosition.isEqual(cat.getposition) = false or mice.item.visable = false then
+					newMice.extend(mice.item)
+				else
+					score := score + 1
+				end
+				mice.forth
+			end
+
+			mice := newMice
+		end
+
 
 	mainLoop
 		do
 			clear
+			checkEat
 			cat.move
+			moveMice
 			draw
 		end
 
@@ -121,6 +162,9 @@ feature --init
 
 	draw
 		do
+			print("SCORE: ")
+			print(score)
+			print("%N")
 			across 1 |..| ySize as yc loop
 				across 1 |..| xSize as  xc loop
 					if xc.item = 1 or yc.item = 1 or xc.item = xSize or yc.item = ySize then
@@ -148,6 +192,7 @@ feature --init
 			ySize := 25
 			won := false
 			lost := false
+			score := 0
 
 			create random.make
 			create mice.make (0)
@@ -157,9 +202,9 @@ feature --init
 
 			across 1 |..| 5 as yc loop
 				random.forth
-				x := (random.item \\ (xSize - 2) + 2)
+				x := ((random.item \\ (xSize - 2)) + 2)
 				random.forth
-				y := (random.item \\ (ySize - 2) + 2)
+				y := ((random.item \\ (ySize - 2)) + 2)
 				create pos.make (x, y)
 				create mouse.make(pos)
 				mice.extend(mouse)
