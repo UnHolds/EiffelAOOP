@@ -39,13 +39,14 @@ feature {NONE} -- Initialization
 			from
 
 			until
-				gameTime.is_greater_equal(gameTimeEnd)
+				gameTime.is_greater_equal(gameTimeEnd) or gameboard.haswon or gameboard.haslost
 			loop
 				create startTime.make_now
 
 				-- ############### main loop code goes here ####################
 
 
+				gameboard.mainLoop
 
 
 				-- ################### end main loop code ######################
@@ -56,18 +57,20 @@ feature {NONE} -- Initialization
 				until
 					duration.is_greater_equal(loopDuration)
 				loop
-					sleep(1000000)
+					sleep(1000000) -- fry my PC prevention
 					create endTime.make_now
 					duration := endTime.duration - startTime.duration
 				end
 				gameTime := startTime.duration - initTime.duration
 			end
 
+			if gameTime.is_greater_equal(gameTimeEnd) or gameboard.haswon then
+				gameboard.drawWinScreen
+			end
 
-			print("done%N")
-			print(gameTime)
-
-
+			if gameboard.haslost then
+				gameboard.drawLoseScreen
+			end
 		end
 
 end
