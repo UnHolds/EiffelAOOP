@@ -24,6 +24,7 @@ feature --init
 	mainLoop
 		do
 			clear
+			cat.move
 			draw
 		end
 
@@ -152,7 +153,7 @@ feature --init
 			create mice.make (0)
 
 			create catStartPos.make(xSize//2, ySize//2)
-			create cat.make(catStartPos)
+			create cat.make(catStartPos, xSize, ySize)
 
 			across 1 |..| 5 as yc loop
 				random.forth

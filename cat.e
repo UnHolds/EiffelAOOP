@@ -22,10 +22,14 @@ create
 feature
 
 	input: KEYINPUT
+	maxX: INTEGER
+	maxY: INTEGER
 
-	make(startPos: POSITION)
+	make(startPos: POSITION amaxX: INTEGER amaxY: INTEGER)
 		do
 			position := startPos
+			maxX := amaxX
+			maxY := amaxY
 			create input.make2
 			input.launch
 		end
@@ -39,5 +43,27 @@ feature
 			end
 		end
 
+	move
+		local
+			newPos: POSITION
+		do
+			create newPos.make (position.getx, position.gety)
+			if input.lastKeyPressed = 'w' or input.lastKeyPressed = 'W' then
+				create newPos.make (position.getx, position.gety - 1)
+			end
+			if input.lastKeyPressed = 's' or input.lastKeyPressed = 'S' then
+				create newPos.make (position.getx, position.gety + 1)
+			end
+			if input.lastKeyPressed = 'a' or input.lastKeyPressed = 'A' then
+				create newPos.make (position.getx - 1, position.gety)
+			end
+			if input.lastKeyPressed = 'd' or input.lastKeyPressed = 'D' then
+				create newPos.make (position.getx - 1, position.gety)
+			end
 
+			if newPos.getx > 1 and newPos.gety > 1 and newPos.getx < maxX and newPos.gety < maxY then
+				position := newPos
+			end
+
+		end
 end
