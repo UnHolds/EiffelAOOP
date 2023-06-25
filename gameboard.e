@@ -17,10 +17,13 @@ feature --init
 	cat: CAT
 	won: BOOLEAN
 	lost: BOOLEAN
+	random: RANDOM
+	mice: ARRAYED_LIST[MOUSE]
 
 	mainLoop
 		do
-
+			clear
+			draw
 		end
 
 	hasWon: BOOLEAN
@@ -47,6 +50,16 @@ feature --init
 		do
 			create pos.make (x, y)
 			wasDrawn := cat.draw (pos)
+
+			from
+				mice.start
+			until
+				wasDrawn or mice.exhausted
+			loop
+				wasDrawn := mice.item.draw(pos)
+				mice.forth
+			end
+
 			Result := wasDrawn
 		end
 
@@ -105,13 +118,31 @@ feature --init
 	make
 		local
 			catStartPos: POSITION
+			pos: POSITION
+			mouse: MOUSE
+			x: INTEGER
+			y: INTEGER
 		do
 			xSize := 100
 			ySize := 25
 			won := false
 			lost := false
+
+			create random.make
+			create mice.make (0)
+
 			create catStartPos.make(xSize//2, ySize//2)
 			create cat.make(catStartPos)
+
+			across 1 |..| 5 as yc loop
+				random.forth
+				x := (random.item \\ (xSize - 2) + 2)
+				random.forth
+				y := (random.item \\ (ySize - 2) + 2)
+				create pos.make (x, y)
+				create mouse.make(pos)
+				mice.extend(mouse)
+			end
 			draw
 		end
 end
