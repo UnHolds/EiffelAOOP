@@ -44,9 +44,11 @@ feature
 			pos: POSITION
 			currentTime: TIME
 			timeDiff: DURATION
+			xdiff: INTEGER
+			ydiff: INTEGER
 		do
-			Result := mouse.getposition
-
+			pos := mouse.getposition
+			Result := pos
 			if isInSub then
 				create currentTime.make_now
 				timeDiff := (currentTime - time).duration
@@ -56,6 +58,22 @@ feature
 				end
 			else
 				-- move mouse to hole
+				xdiff := (goalHole.getposition.getx - mouse.getposition.getx)
+				ydiff := (goalHole.getposition.gety - mouse.getposition.gety)
+				if xdiff.abs > ydiff.abs then
+					if xdiff > 0 then
+						create pos.make(mouse.getposition.getx + 1, mouse.getposition.gety)
+					else
+						create pos.make(mouse.getposition.getx - 1, mouse.getposition.gety)
+					end
+				else
+					if ydiff > 0 then
+						create pos.make(mouse.getposition.getx, mouse.getposition.gety + 1)
+					else
+						create pos.make(mouse.getposition.getx, mouse.getposition.gety - 1)
+					end
+				end
+				Result := pos
 
 				-- check if mouse is on goal hole and if so eat into hole
 				if mouse.getposition.isequal (goalHole.getposition) then
@@ -64,11 +82,6 @@ feature
 					create time.make_now
 				end
 			end
-
-
-
-			create pos.make(1, 1)
-			Result := pos
 		end
 
 	chooseGoalHole
