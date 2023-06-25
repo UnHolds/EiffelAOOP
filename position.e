@@ -31,9 +31,14 @@ feature
 			Result := yPos
 		end
 
-	isEqual (pos: POSITION): BOOLEAN
+	isEqual(pos: POSITION): BOOLEAN
 		do
 			Result := (xPos = pos.getX and yPos = pos.getY)
+		end
+
+	distance(pos: POSITION): INTEGER
+		do
+			Result := ((xPos - pos.getx).abs + (yPos - pos.gety).abs)
 		end
 
 end

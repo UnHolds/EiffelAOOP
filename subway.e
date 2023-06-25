@@ -15,6 +15,7 @@ feature
 	holes: ARRAYED_LIST[HOLE]
 	mice: ARRAYED_LIST[MOUSE]
 	goalSubway: BOOLEAN
+	lastCatPos: POSITION
 
 	make(xSize:INTEGER ySize: INTEGER seed:INTEGER isGoal: BOOLEAN)
 		local
@@ -33,6 +34,7 @@ feature
 			random.forth
 			numHoles := (random.item \\ 4) + 2
 			create holes.make(0)
+			create lastCatPos.make (100, 100)
 			across 1 |..| numHoles as yc loop
 				random.forth
 				x := ((random.item \\ (xSize - 2)) + 2)
@@ -42,6 +44,7 @@ feature
 				create hole.make(pos, Current)
 				holes.extend(hole)
 			end
+
 		end
 
 	getHoles: ARRAYED_LIST[HOLE]
@@ -49,16 +52,39 @@ feature
 			Result := holes
 		end
 
-	enter(mouse:MOUSE)
+	enter(mouse:MOUSE catPos:POSITION)
 		do
 			mouse.setVisable(false)
 			mice.extend(mouse)
+			lastCatPos := catPos
 		end
 
-	exit(mouse: MOUSE)
+	exit(mouse: MOUSE): POSITION
 		do
 			mouse.setVisable(true)
 			mice.prune(mouse)
+			Result := findExitHole
+		end
+
+	findExitHole: POSITION
+		local
+			bestHolePos: POSITION
+		do
+			bestHolePos := lastCatPos
+			from
+				holes.start
+			until
+				holes.exhausted
+			loop
+				if
+					holes.item.getposition.distance(lastCatPos) > bestHolePos.distance(lastCatPos)
+				then
+					bestHolePos := holes.item.getposition
+				end
+				holes.forth
+			end
+
+			Result := bestHolePos
 		end
 
 end
