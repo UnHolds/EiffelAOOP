@@ -26,8 +26,10 @@ feature
 	maxY: INTEGER
 
 	make(startPos: POSITION amaxX: INTEGER amaxY: INTEGER)
+		require
+			startPos.getx > 1 and startPos.gety > 1 and startPos.getx < amaxX and startPos.gety < amaxY
 		do
-			position := startPos
+			makeEntity(startPos)
 			maxX := amaxX
 			maxY := amaxY
 			create input.make2
@@ -35,6 +37,8 @@ feature
 		end
 
 	draw(pos:POSITION):BOOLEAN
+		require else
+			pos.getx > 1 and pos.gety > 1 and pos.getx < maxX and pos.gety < maxY
 		do
 			Result := false
 			if position.isEqual(pos) then
@@ -44,6 +48,8 @@ feature
 		end
 
 	move
+		require
+			position.getx > 1 and position.gety > 1 and position.getx < maxX and position.gety < maxY
 		local
 			newPos: POSITION
 			keyPress: CHARACTER
@@ -66,6 +72,7 @@ feature
 			if newPos.getx > 1 and newPos.gety > 1 and newPos.getx < maxX and newPos.gety < maxY then
 				position := newPos
 			end
-
+		ensure
+			position.getx > 1 and position.gety > 1 and position.getx < maxX and position.gety < maxY
 		end
 end

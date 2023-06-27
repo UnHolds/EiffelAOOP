@@ -33,6 +33,8 @@ feature
 		end
 
 	draw(pos:POSITION):BOOLEAN
+		require else 
+			pos.getx > 1 and pos.gety > 1
 		do
 			Result := false
 			if position.isEqual(pos) then

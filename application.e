@@ -71,6 +71,8 @@ feature {NONE} -- Initialization
 			if gameboard.haslost then
 				gameboard.drawLoseScreen
 			end
+		ensure
+			(gameboard.haslost = true or gameboard.haswon = true)
 		end
 
 end

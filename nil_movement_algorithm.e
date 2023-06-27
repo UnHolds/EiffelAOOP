@@ -23,11 +23,15 @@ feature
 		end
 
 	move: POSITION
+		require else
+			false
 		local
 			pos: POSITION
 		do
 			create pos.make(-1, -1)
 			Result := pos
+		ensure then
+			true
 		end
 
 end

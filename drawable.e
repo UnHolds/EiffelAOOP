@@ -10,8 +10,13 @@ class
 
 feature
 	draw(position:POSITION):BOOLEAN
+		require
+			false
 		do
 			--this should be overwritten in the subclass
+		ensure
+			true
 		end
+
 
 end
