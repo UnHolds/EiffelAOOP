@@ -24,6 +24,8 @@ feature
 	algorithm: MOVEMENT_ALGORITHM
 
 	make(startPos: POSITION)
+		require
+			startPos.getx > 1 and startPos.gety > 1
 		local
 			algo: NIL_MOVEMENT_ALGORITHM
 		do

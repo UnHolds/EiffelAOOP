@@ -58,6 +58,8 @@ feature
 		end
 
 	enter(mouse:MOUSE catPos:POSITION)
+		require
+			catPos.getx > 1 and catPos.gety > 1
 		do
 			mouse.setVisable(false)
 			mice.extend(mouse)

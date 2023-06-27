@@ -22,9 +22,13 @@ create
 feature
 	subway: SUBWAY
 	make(startPos: POSITION asubway: SUBWAY)
+		require
+			startPos.getx > 1 and startPos.gety > 1
 		do
 			position := startPos
 			subway := asubway
+		ensure
+			position = startPos and subway = asubway
 		end
 
 	getSubway: SUBWAY
@@ -33,7 +37,7 @@ feature
 		end
 
 	draw(pos:POSITION):BOOLEAN
-		require else 
+		require else
 			pos.getx > 1 and pos.gety > 1
 		do
 			Result := false
