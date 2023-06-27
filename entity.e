@@ -19,7 +19,7 @@ feature
 
 	make(startPos: POSITION)
 		require
-				startPos.getx > 1 and startPos.gety > 1
+			startPos.getx > 1 and startPos.gety > 1
 		do
 			position := startPos
 		end

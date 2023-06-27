@@ -27,6 +27,8 @@ feature
 
 
 	make(m: MOUSE s: ARRAYED_LIST[SUBWAY] rs: SUBWAY seed: INTEGER c: CAT)
+		require else
+			s.count > 1
 		do
 			mouse := m
 			subways := s
@@ -39,9 +41,14 @@ feature
 			residingSubway := rs
 			chooseGoalHole
 			cat := c
+		ensure then
+			mouse = m and residingSubway = rs and cat = c
 		end
 
+
 	move: POSITION
+		require else
+			mouse.getposition.getx > 1 and mouse.getposition.gety > 1
 		local
 			pos: POSITION
 			currentTime: TIME
@@ -89,6 +96,8 @@ feature
 		end
 
 	chooseGoalHole
+		require
+			subways.count > 1
 		local
 			holes: ARRAYED_LIST[HOLE]
 		do
@@ -105,7 +114,6 @@ feature
 
 			random.forth
 			goalHole := holes.i_th((random.item \\ (holes.count - 1)) + 1)
-
 		end
 
 end
